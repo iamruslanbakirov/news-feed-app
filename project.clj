@@ -1,5 +1,5 @@
 (defproject twitter-impl "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+  :description "this is twetter-app impl"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
@@ -75,7 +75,7 @@
 
   :figwheel
   {:http-server-root "public"
-   :server-port 3449
+   :server-port 8080
    :nrepl-port 7002
    :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"]
 
