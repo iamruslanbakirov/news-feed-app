@@ -13,6 +13,7 @@
                  [ring/ring-defaults "0.3.1"]
                  [compojure "1.6.0"]
                  [hiccup "1.0.5"]
+                 [garden "1.3.2"]
                  [yogthos/config "0.9"]
                  [org.clojure/clojurescript "1.9.946"
                   :scope "provided"]

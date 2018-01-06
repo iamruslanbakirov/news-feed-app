@@ -12,10 +12,11 @@
 
 (defn head []
   [:head
+   [:title "Login"]
    [:meta {:charset "utf-8"}]
    [:meta {:name "viewport"
            :content "width=device-width, initial-scale=1"}]
-   (include-css (if (env :dev) "/css/login-page.css" "/css/site.min.css"))])
+   (include-css "/css/login-page.css")])
 
 (defn root-login [error]
   [:div#root-login
