@@ -1,5 +1,5 @@
-(ns twitter-impl.server
-  (:require [twitter-impl.handler :refer [app]]
+(ns app.server
+  (:require [app.handler :refer [app]]
             [config.core :refer [env]]
             [ring.adapter.jetty :refer [run-jetty]])
   (:gen-class))

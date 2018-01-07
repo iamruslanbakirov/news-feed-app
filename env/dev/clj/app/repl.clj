@@ -1,5 +1,5 @@
-(ns twitter-impl.repl
-  (:use twitter-impl.handler
+(ns app.repl
+  (:use app.handler
         figwheel-sidecar.repl-api
         ring.server.standalone
         [ring.middleware file-info file]))

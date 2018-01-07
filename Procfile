@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -cp target/twitter-impl.jar clojure.main -m twitter-impl.server
+web: java $JVM_OPTS -cp target/app.jar clojure.main -m app.server

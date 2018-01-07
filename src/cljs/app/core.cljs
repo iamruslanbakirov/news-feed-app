@@ -1,19 +1,19 @@
-(ns twitter-impl.core
+(ns app.core
     (:require [reagent.core :as reagent :refer [atom]]
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]
 
-              [twitter-impl.containers.home :refer [home-page]]))
+              [app.containers.home :refer [home-page-container]]))
 
 
-(defonce page (atom #'home-page))
+(defonce page (atom #'home-page-container))
 (defonce pending-request (atom 0))
 
 (defn current-page []
   [:div [@page]])
 
 (secretary/defroute "/" []
-  (reset! page #'home-page))
+  (reset! page #'home-page-container))
 
 
 (defn mount-root []

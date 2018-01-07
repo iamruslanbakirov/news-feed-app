@@ -1,17 +1,18 @@
-(ns twitter-impl.containers.home.style
+(ns app.containers.home.style
   (:require [garden.core :as garden]
             [garden.units :as units]
-            [garden.color :as color]))
+            [garden.color :as color]
+            [app.util :refer [style-tag]]))
 
-(defn style-tag [gcss]
-  [:style (garden/css gcss)])
 
 (defn home []
   (style-tag [:.home
               {:display "flex"
                :flex-direction "column"
                :background "#FAFAFA"
-               :min-height "100vh"}]))
+               :overflow "hidden"
+               :min-height "100vh"}
+              [:main {:display "flex"}]]))
 
 (defn home-header []
   (style-tag [:.home-header
@@ -46,6 +47,7 @@
                      :height (units/px 32)
                      :align-items "center"
                      :display "flex"
+                     :cursor "pointer"
                      :color "rgba(0,0,0,0.87)"}
                   [:&:hover {:background "rgba(0,0,0,0.11)"}]
                   [:a {:text-decoration "none"

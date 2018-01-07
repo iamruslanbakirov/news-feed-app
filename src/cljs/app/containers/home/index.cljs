@@ -1,10 +1,12 @@
-(ns twitter-impl.containers.home
+(ns app.containers.home
   (:require [reagent.core :as reagent :refer [atom]]
-            [twitter-impl.containers.home.style :refer [home home-header nav]]))
+            [app.containers.home.style :refer [home home-header nav]]
+            [app.containers.news-feed :refer [news-feed-container]]
+            [app.containers.details :refer [details-container]]))
 
 (defonce nav-switch (atom false))
 
-(defn home-page []
+(defn home-page-container []
   [:div.home (home)
     [:header.home-header (home-header)
      [:section.home-header--item [:p "Twitter"]]
@@ -15,7 +17,7 @@
             :on-click #(reset! nav-switch (not @nav-switch))} "more_vert"]
        (when @nav-switch
          [:ul
-          [:li [:a {:href "logout"} "Logout"]]])]]
-     [:main
-      [:section "left side"]
-      [:section "right side"]]]])
+          [:li [:a {:href "logout"} "Logout"]]])]]]
+    [:main
+     (news-feed-container)
+     (details-container)]])

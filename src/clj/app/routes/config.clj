@@ -1,4 +1,4 @@
-(ns twitter-impl.routes.config
+(ns app.routes.config
     (:require [compojure.core :refer [defroutes GET POST]]
               [compojure.route :refer [not-found resources]]
               [compojure.response :refer [render]]
@@ -8,8 +8,9 @@
               [buddy.auth.backends.session :refer [session-backend]]
               [buddy.auth :refer [authenticated?]]
               [config.core :refer [env]]
-              [twitter-impl.routes.home :refer [home]]
-              [twitter-impl.routes.login :refer [login login-authenticate]]))
+        
+              [app.routes.home :refer [home]]
+              [app.routes.login :refer [login login-authenticate]]))
 
 (defn logout [req]
   (-> (redirect "/login")

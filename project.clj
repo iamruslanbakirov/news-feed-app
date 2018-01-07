@@ -1,5 +1,5 @@
-(defproject twitter-impl "0.1.0-SNAPSHOT"
-  :description "this is twetter-app impl"
+(defproject app "0.1.0-SNAPSHOT"
+  :description "news app"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
@@ -14,6 +14,7 @@
                  [compojure "1.6.0"]
                  [hiccup "1.0.5"]
                  [garden "1.3.2"]
+                 [cljsjs/moment "2.17.1-1"]
                  [yogthos/config "0.9"]
                  [org.clojure/clojurescript "1.9.946"
                   :scope "provided"]
@@ -26,14 +27,14 @@
             [lein-asset-minifier "0.2.7"
              :exclusions [org.clojure/clojure]]]
 
-  :ring {:handler twitter-impl.handler/app
-         :uberwar-name "twitter-impl.war"}
+  :ring {:handler app.handler/app
+         :uberwar-name ".war"}
 
   :min-lein-version "2.5.0"
 
-  :uberjar-name "twitter-impl.jar"
+  :uberjar-name "app.jar"
 
-  :main twitter-impl.server
+  :main app.server
 
   :clean-targets ^{:protect false}
   [:target-path
@@ -58,9 +59,9 @@
               :pretty-print  false}}
             :app
             {:source-paths ["src/cljs" "src/cljc" "env/dev/cljs"]
-             :figwheel {:on-jsload "twitter-impl.core/mount-root"}
+             :figwheel {:on-jsload "app.core/mount-root"}
              :compiler
-             {:main "twitter-impl.dev"
+             {:main "app.dev"
               :asset-path "/js/out"
               :output-to "target/cljsbuild/public/js/app.js"
               :output-dir "target/cljsbuild/public/js/out"
@@ -81,11 +82,11 @@
    :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"]
 
    :css-dirs ["resources/public/css"]
-   :ring-handler twitter-impl.handler/app}
+   :ring-handler app.handler/app}
 
 
 
-  :profiles {:dev {:repl-options {:init-ns twitter-impl.repl
+  :profiles {:dev {:repl-options {:init-ns app.repl
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
                    :dependencies [[binaryage/devtools "0.9.8"]

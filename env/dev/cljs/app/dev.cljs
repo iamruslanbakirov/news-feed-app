@@ -1,6 +1,6 @@
-(ns ^:figwheel-no-load twitter-impl.dev
+(ns ^:figwheel-no-load app.dev
   (:require
-    [twitter-impl.core :as core]
+    [app.core :as core]
     [devtools.core :as devtools]))
 
 (devtools/install!)

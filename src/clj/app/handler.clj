@@ -1,11 +1,11 @@
-(ns twitter-impl.handler
+(ns app.handler
   (:require [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.params :refer [wrap-params]]
 
-            [twitter-impl.middleware :refer [wrap-middleware]]
+            [app.middleware :refer [wrap-middleware]]
 
             [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
-            [twitter-impl.routes.config :refer [my-routes auth-backend]]))
+            [app.routes.config :refer [my-routes auth-backend]]))
 
 
 (def app

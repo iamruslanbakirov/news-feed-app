@@ -1,4 +1,4 @@
-(ns twitter-impl.routes.home
+(ns app.routes.home
     (:require [buddy.auth :refer [authenticated? throw-unauthorized]]
               [hiccup.page :refer [include-js include-css html5]]
               [compojure.response :refer [render]]

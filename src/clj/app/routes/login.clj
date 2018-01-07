@@ -1,4 +1,4 @@
-(ns twitter-impl.routes.login
+(ns app.routes.login
     (:require [hiccup.page :refer [include-js include-css html5]]
               [compojure.response :refer [render]]
               [ring.util.response :refer [redirect]]
