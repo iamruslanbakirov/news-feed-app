@@ -12,6 +12,7 @@
                  [ring "1.6.3"]
                  [ring/ring-defaults "0.3.1"]
                  [compojure "1.6.0"]
+                 [re-frame "0.10.1"]
                  [hiccup "1.0.5"]
                  [garden "1.3.2"]
                  [cljsjs/moment "2.17.1-1"]

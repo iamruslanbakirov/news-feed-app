@@ -20,6 +20,6 @@
   [:section.news-feed (news-feed-style)
      (doall (for [item (:news @state)]
               ^{:key (:id item)} [:div (news-item
-                                        (:author item)
-                                        (:text item)
-                                        (:time item))]))])
+                                         (:author item)
+                                         (:text item)
+                                         (:time item))]))])
