@@ -4,28 +4,22 @@
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]
 
-              [app.containers.home :refer [home-page-container]]))
+              [app.containers.home.views :refer [home-page-container]]))
 
-(defn dispatch-page [new-page]
-  (rf/dispatch [:switch-page new-page]))
 
-(rf/reg-event-db :initialize
-  (fn [_ _] {:page home-page-container}))
-
-(rf/reg-event-db :switch-page
-  (fn [db [_ new-page-value]]
-    (assoc db :page new-page-value)))
-
-(rf/reg-sub :page (fn [db _] (:page db)))
+(defonce page (atom #'home-page-container))
 
 (defn current-page []
-  [:div [@(rf/subscribe [:page])]])
+  [:div [@page]])
 
 (secretary/defroute "/" []
-  (dispatch-page home-page-container))
+  (reset! page #'home-page-container))
 
 (defn mount-root []
-  (rf/dispatch-sync [:initialize])
+  (rf/dispatch-sync [:init-home-db])
+  (rf/dispatch [:get-user-data])
+  (rf/dispatch [:get-news-data])
+
   (reagent/render [current-page] (.getElementById js/document "root")))
 
 (defn init! []

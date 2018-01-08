@@ -13,8 +13,10 @@
                  [ring/ring-defaults "0.3.1"]
                  [compojure "1.6.0"]
                  [re-frame "0.10.1"]
+                 [cljs-ajax "0.7.3"]
                  [hiccup "1.0.5"]
                  [garden "1.3.2"]
+                 [ring/ring-json "0.4.0"]
                  [cljsjs/moment "2.17.1-1"]
                  [yogthos/config "0.9"]
                  [org.clojure/clojurescript "1.9.946"
