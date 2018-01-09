@@ -19,7 +19,7 @@
     (assoc :session {})))
 
 (defn user-handler [req]
-  (response {:username "admin" :id 1}))
+  (response {:username (:identity req) :id 1}))
 
 (defn news-handler [req]
   (response [{:id 1

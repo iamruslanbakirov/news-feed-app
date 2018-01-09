@@ -1,7 +1,7 @@
 (ns app.containers.home.style
   (:require [garden.core :as garden]
-            [garden.units :as units]
-            [garden.color :as color]
+            [garden.units :as u]
+            [garden.color :as c]
             [app.util :refer [style-tag]]))
 
 
@@ -12,13 +12,14 @@
                :background "#FAFAFA"
                :overflow "hidden"
                :min-height "100vh"}
-              [:main {:display "flex"}]]))
+              [:main.home-content {:display "flex"
+                                   :height "calc(100vh - 66px)"}]]))
 
 (defn home-header []
   (style-tag [:.home-header
               {:display "flex"
                :background "#0277BD"
-               :height (units/px 66)
+               :height (u/px 66)
                :justify-content "space-between"
                :box-shadow "0 0 9px rgba(0,0,0,0.5)"
                :color "#fff"}
@@ -38,13 +39,13 @@
               [:ul {:position "absolute"
                     :display "block"
                     :right 0
-                    :width (units/px 120)
+                    :width (u/px 120)
                     :padding "8px 0"
                     :background "#fff"
                     :box-shadow "0 0 9px rgba(0,0,0,0.7)"
-                    :font-size (units/px 15)}
-               [:li {:padding-left (units/px 24)
-                     :height (units/px 32)
+                    :font-size (u/px 15)}
+               [:li {:padding-left (u/px 24)
+                     :height (u/px 32)
                      :align-items "center"
                      :display "flex"
                      :cursor "pointer"

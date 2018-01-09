@@ -4,7 +4,7 @@
 
             [app.containers.home.style :refer [home home-header nav]]
             [app.containers.news-feed.views :refer [news-feed-container]]
-            [app.containers.details :refer [details-container]]
+            [app.containers.details.views :refer [details-container]]
 
             [app.containers.home.db]
             [app.containers.home.events]
@@ -25,6 +25,6 @@
          (when @nav-switch
            [:ul
             [:li [:a {:href "logout"} "Logout"]]])]]]
-      [:main
+      [:main {:class "home-content"}
        (news-feed-container)
        (details-container)]]))
