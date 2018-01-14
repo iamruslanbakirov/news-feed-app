@@ -16,7 +16,12 @@
       :border "none"
       :color "#fff"
       :text-transform "uppercase"
-      :cursor "pointer"}]))
+      :box-shadow "1px 1px 5px rgba(0,0,0,0.3)"
+      :transition "all 0.2s linear"
+      :cursor "pointer"}
+     [:&:hover {:background "rgba(2,119,189, 0.759)"
+                :box-shadow "1px 1px 5px rgba(0,0,0,0.5)"}]]))
 
 (defn btn [text handler]
-  [:button (css) text])
+  [:button {:on-click handler} (css)
+   text])

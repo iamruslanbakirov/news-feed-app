@@ -9,6 +9,6 @@
 (defn news-feed-style []
   (style-tag [:.news-feed
               {:display "flex"
-               :flex-basis "50%"
-               :width "50%"
+               :flex-basis "100%"
+               :width "100%"
                :flex-direction "column"}]))

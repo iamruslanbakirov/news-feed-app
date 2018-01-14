@@ -5,17 +5,10 @@
 
             [app.util :refer [style-tag]]))
 
-(defn details-profile-css []
-  (style-tag [:.profile
-              {:display "flex"
-               :flex-basis "50%"
-               :width "50%"
-               :flex-direction "column"}]))
-
 (defn paper-header-css []
   (style-tag [:.paper-header
               {:height (px 130)
-               :background "linear-gradient(to bottom, rgba(2,119,189, 0.6), rgba(2,119,189, 0))"
+               ; :background "linear-gradient(to bottom, rgba(2,119,189, 1), rgba(2,119,189, 0))"
                :display "flex"
                :flex-direction "row"
                :padding (px 10)
@@ -26,9 +19,8 @@
 (defn wrap-paper-css []
   (style-tag [:.wrap-paper
               {:min-height "calc(100% - 20px)"
-               :margin (px 10)
+               :width "100%"
                :background "#fff"
-               :box-shadow "1px 1px 9px rgba(0,0,0,0.3)"
                :border-radius (px 3)}]))
 
 (defn pic-header-css []

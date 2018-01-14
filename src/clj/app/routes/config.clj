@@ -19,7 +19,12 @@
     (assoc :session {})))
 
 (defn user-handler [req]
-  (response {:username (:identity req) :id 1}))
+  (response {:username (:identity req)
+             :id 1
+             :status "Hello world!"
+             :followers 1000
+             :following 222}))
+
 
 (defn news-handler [req]
   (response [{:id 1
@@ -33,12 +38,13 @@
 
 (defroutes my-routes
   (GET "/" [] home)
+  (GET "/news" [] home)
   (GET "/login" [] login)
   (POST "/login" [] login-authenticate)
   (GET "/logout" [] logout)
   ; REST API
-  (GET "/user" [] (wrap-json-response user-handler))
-  (GET "/news" [] (wrap-json-response news-handler))
+  (GET "/api/user" [] (wrap-json-response user-handler))
+  (GET "/api/news" [] (wrap-json-response news-handler))
 
   (resources "/")
   (not-found "Not Found"))

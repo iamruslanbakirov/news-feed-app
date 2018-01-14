@@ -11,9 +11,11 @@
 ;   (-> (swap! state update :uniqkey inc) (:uniqkey @state)))
 
 (defn news-feed-container []
-  [:section.news-feed (news-feed-style)
-     (doall (for [item @(subscribe [:news])]
-              ^{:key (:id item)} [:div (news-item
-                                         (:author item)
-                                         (:text item)
-                                         (:time item))]))])
+  (dispatch [:get-news-data])
+  (fn []
+    [:section.news-feed (news-feed-style)
+       (doall (for [item @(subscribe [:news])]
+                ^{:key (:id item)} [:div (news-item
+                                           (:author item)
+                                           (:text item)
+                                           (:time item))]))]))
