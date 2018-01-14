@@ -38,3 +38,7 @@
 (reg-event-db :news-error
   (fn [db [_ res]]
     (update-in db [:root-db] assoc :loading-news? false :error-news (keywordize-keys (js->clj res)))))
+
+(reg-event-db :switch-route-name
+  (fn [db [_ new-name]]
+    (update-in db [:root-db] assoc :route-current-name new-name)))

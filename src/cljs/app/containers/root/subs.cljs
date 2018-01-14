@@ -25,3 +25,7 @@
 (reg-sub :news
   (fn [db _]
     (:data-news (:root-db db))))
+
+(reg-sub :current-route-name
+  (fn [db _]
+    (:route-current-name (:root-db db))))

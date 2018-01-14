@@ -6,4 +6,5 @@
    :data-user nil
    :error-user nil
    :data-news nil
-   :error-news nil})
+   :error-news nil
+   :route-current-name "root"})
