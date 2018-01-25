@@ -46,7 +46,6 @@ body {
 
 form {
     width: inherit;
-    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,7 +60,7 @@ label {
     width: 267px;
 }
 
-label > span {
+label > .caption {
     display:block;
     font-size: 13px;
     cursor: pointer;
@@ -80,13 +79,27 @@ label > input {
     width: inherit;
 }
 
-label > input:focus {
-    outline: none;
-    border-bottom-color: var(--main-color);
+label > .border:after {
+	content: " ";
+    border-bottom: 2px solid var(--main-color);
+    width: 0;
+    left: 50%;
+    transition: all 0.2s ease;
+    position: absolute;
+    bottom: 0;
 }
 
-label > input:focus + span {
+label > input:focus {
+    outline: none;
+}
+
+label > input:focus + .caption {
     color: var(--main-color);
+}
+
+label > input:focus + .border:after {
+    width: 100%;
+    left: 0;
 }
 
 form button[type=submit] {

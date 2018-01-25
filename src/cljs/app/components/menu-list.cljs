@@ -9,8 +9,10 @@
 (defn css []
   (style-tag [:.menu-paper-list
               {:position "relative"}
+              [:i {:padding (px 5)}]
               [:i:hover
-                {:color "rgba(0,0,0,0.11)"
+                {:background "rgba(255,255,255,0.11)"
+                 :border-radius (px 3)
                  :cursor "pointer"}]
               [:&__wrapper {:position "fixed"
                             :top 0
