@@ -58,3 +58,19 @@
 		 {:cursor "pointer"
 		  :text-transform "uppercase"
 		  :text-decoration "underline"}]]))
+
+(defn user-lists-css []
+	(style-tag [:.user-list
+				[:li:hover {:background "rgba(0,0,0,0.1)"
+							:cursor "pointer"}]
+				[:li {:width "100%"
+					  :padding "0 20px"
+					  :height (px 60)
+					  :display "flex"
+					  :align-items "center"}
+				 [:img {:height (px 40)
+						:width (px 40)
+						:border-radius "50%"
+						:background "rgba(0,0,0,0.7)"
+						:border "none"}]
+				 [:.username {:margin "0 10px"}]]]))

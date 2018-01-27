@@ -25,13 +25,23 @@
 	(GET "/login" [] login)
 	(POST "/login" [] login-authenticate)
 	(GET "/logout" [] logout)
+
+
 	; REST API
 	(GET "/api/user" [] (wrap-json-response mock/user-handler))
 	(GET "/api/news" [] (wrap-json-response mock/news-handler))
-	(GET "/api/posts/admin" [] (wrap-json-response mock/my-posts-handler))
 
-	(GET "/api/followers/admin" [] (wrap-json-response mock/my-followers-handler))
-	(GET "/api/followings/admin" [] (wrap-json-response mock/my-followings-handler))
+	(GET "/api/users/:username" [username]
+		 (wrap-json-response (mock/get-user username)))
+
+	(GET "/api/posts/:username" [username]
+		 (wrap-json-response (mock/get-posts username)))
+
+	(GET "/api/followers/:username" [username]
+		 (wrap-json-response (mock/get-followers username)))
+
+	(GET "/api/followings/:username" [username]
+		 (wrap-json-response (mock/get-followings username)))
 
 	(resources "/")
 	(not-found "Not Found"))

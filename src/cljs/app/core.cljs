@@ -14,6 +14,7 @@
 
 (defonce page (atom #'details-container))
 (defonce pop-up (atom {:comp nil :title nil}))
+(add-watch  pop-up :logger #(-> %4 clj->js js/console.log))
 
 (secretary/defroute root "/" []
 	(dispatch [:switch-route-name "root"])
