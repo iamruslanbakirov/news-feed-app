@@ -7,7 +7,7 @@
 			  [app.util :refer [style-tag]]
 			  [cljsjs.moment]
 			  [ajax.core :refer [GET]]
-			  [app.util :refer [to-details]]))
+			  [clojure.walk :refer [keywordize-keys]]))
 
 (defn css []
 	(style-tag
@@ -32,12 +32,18 @@
 		:order      2
 		:font-size  (u/px 11)}]]))
 
-(defn news-item [pop-up & param]
+(defn news-item [pop-up details-container & param]
 	[:div.news-item
-	 {:on-click
-	  #(GET (str "/api/users/" (nth param 0))
-		{:handler (to-details pop-up %1)})}
 	 (css)
-	 [:span.news-item__name (nth param 0)]
+	 [:span.news-item__name
+	  {:on-click
+	   (fn []
+		   (GET (str "/api/users/" (nth param 0))
+				{:handler (fn [res]
+							  (let [user (keywordize-keys (js->clj res))]
+								  (swap! pop-up assoc
+										 :comp  (details-container user pop-up)
+										 :title (:username user))))}))}
+	  (nth param 0)]
 	 [:div.news-item__text (nth param 1)]
 	 [:span.news-item__time (-> (js/moment (nth param 2)) (.fromNow))]])
