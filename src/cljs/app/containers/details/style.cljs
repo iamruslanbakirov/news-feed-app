@@ -28,8 +28,8 @@
 (defn pic-header-css []
 	(style-tag
 	 [:.pic-header
-	  {:width         (px 80)
-	   :height        (px 80)
+	  {:width         (px 86)
+	   :height        (px 86)
 	   :background    "rgba(0,0,0,0.7)"
 	   :border-radius (px 2)}]))
 
@@ -53,4 +53,8 @@
 	   :display         "flex"
 	   :justify-content "space-between"
 	   :align-items     "center"
-	   :padding         (px 10)}]))
+	   :padding         (px 10)}
+	  	[:.link
+		 {:cursor "pointer"
+		  :text-transform "uppercase"
+		  :text-decoration "underline"}]]))

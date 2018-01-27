@@ -10,7 +10,8 @@
 			  [app.components.menu-list :refer [menu-list-component]]
 			  [app.containers.root.db]
 			  [app.containers.root.events]
-			  [app.containers.root.subs]))
+			  [app.containers.root.subs]
+			  [app.containers.pop-up.views :refer [pop-up-container]]))
 
 (def menu-list [{:href "/logout" :title "Logout"}])
 
@@ -30,20 +31,29 @@
 				(link :title)]])]]))
 
 
-(defn root-container [page]
+(defn root-container [page pop-up]
 	(dispatch [:get-user-data])
 	(fn []
-		[:div.root
-		 (css/root)
-		 [:header.root-header
-		  (css/root-header)
-		  [:div
-		   {:class "root-header--info"}
-		   [:section.root-header--item [:p "Twitter"]]
-		   [:section.root-header--item
-			[menu-list-component menu-list]]]
-		  (root-header-nav-comp nav-list)]
-		 [:main {:class "root-content"}
-		  [@page]]]))
+		(let [not-ready? (subscribe [:loading-user?])]
+			(if-not @not-ready?
+				[:div "loading.."]
+				[:div.root
+				 (css/root)
+				 [:header.root-header
+				  (css/root-header)
+				  [:div
+				   {:class "root-header--info"}
+				   [:section.root-header--item [:p "Twitter"]]
+				   [:section.root-header--item
+					[menu-list-component menu-list]]]
+				  (root-header-nav-comp nav-list)]
+				 [:main {:class "root-content"}
+				  [@page]
+				  (when
+					  (not= (:comp @pop-up) nil)
+					  (pop-up-container
+					   (:comp @pop-up)
+					   (:title @pop-up)
+					   #(swap! pop-up assoc :comp nil :title nil)))]]))))
 
 

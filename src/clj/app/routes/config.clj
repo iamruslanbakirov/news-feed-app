@@ -12,31 +12,12 @@
 			  [config.core :refer [env]]
 
 			  [app.routes.home :refer [home]]
-			  [app.routes.login :refer [login login-authenticate]]))
+			  [app.routes.login :refer [login login-authenticate]]
+			  [app.routes.mock :as mock]))
 
 (defn logout [req]
 	(-> (redirect "/login")
 		(assoc :session {})))
-
-(defn user-handler [req]
-	(response
-		{:username  (:identity req)
-		 :id        1
-		 :status    "Hello world!"
-		 :followers 1000
-		 :following 222}))
-
-
-(defn news-handler [req]
-	(response
-		[{:id     1
-		  :author "@TestNik"
-		  :text   "Hello everyone!"
-		  :time   1515440957898}
-		 {:id     2
-		  :author "@TestSecond"
-		  :text   "On friday i wanna go sleep"
-		  :time   1515440857898}]))
 
 (defroutes my-routes
 	(GET "/" [] home)
@@ -45,8 +26,12 @@
 	(POST "/login" [] login-authenticate)
 	(GET "/logout" [] logout)
 	; REST API
-	(GET "/api/user" [] (wrap-json-response user-handler))
-	(GET "/api/news" [] (wrap-json-response news-handler))
+	(GET "/api/user" [] (wrap-json-response mock/user-handler))
+	(GET "/api/news" [] (wrap-json-response mock/news-handler))
+	(GET "/api/posts/admin" [] (wrap-json-response mock/my-posts-handler))
+
+	(GET "/api/followers/admin" [] (wrap-json-response mock/my-followers-handler))
+	(GET "/api/followings/admin" [] (wrap-json-response mock/my-followings-handler))
 
 	(resources "/")
 	(not-found "Not Found"))
