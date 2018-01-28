@@ -27,12 +27,16 @@
 
 (defn details-container [user pop-up]
 	(let [username  (:username user)
-		  status    (:status user)]
+		  status    (:status user)
+		  auth-username (:username @(subscribe [:user]))]
 		(dispatch [:get-followers username])
 		(dispatch [:get-followings username])
 		(fn []
 			(let [followers  (subscribe [:followers username])
-				  followings (subscribe [:followings username])]
+				  followings (subscribe [:followings username])
+				  auth-followings (subscribe [:followings auth-username])
+				  btn-state (or (= auth-username username)
+								(some #(= (:username %) username) @auth-followings))]
 				[:div.wrap-paper
 				 (css/wrap-paper-css)
 				 [:header.paper-header
@@ -43,7 +47,7 @@
 				 [:main
 				  [:nav.profile-nav
 				   (css/profile-nav-css)
-				   (btn-component "follow" (fn []) (= (:username @(subscribe [:user])) username))
+				   (btn-component (if btn-state "following" "follow") (fn []) btn-state)
 				   [:span
 					{:class    "link"
 					 :on-click #(swap! pop-up assoc
@@ -56,5 +60,7 @@
 								 :comp  (user-list @followings details-container pop-up)
 								 :title "Followings")}
 					(str (count @followings) " following")]]
-				  [add-post-component (fn [])]
+				  (when
+					  (= auth-username username)
+					  [add-post-component (fn [])])
 				  [user-posts user details-container pop-up]]]))))

@@ -33,17 +33,21 @@
 		:font-size  (u/px 11)}]]))
 
 (defn news-item [pop-up details-container & param]
-	[:div.news-item
-	 (css)
-	 [:span.news-item__name
-	  {:on-click
-	   (fn []
-		   (GET (str "/api/users/" (nth param 0))
-				{:handler (fn [res]
-							  (let [user (keywordize-keys (js->clj res))]
-								  (swap! pop-up assoc
-										 :comp  (details-container user pop-up)
-										 :title (:username user))))}))}
-	  (nth param 0)]
-	 [:div.news-item__text (nth param 1)]
-	 [:span.news-item__time (-> (js/moment (nth param 2)) (.fromNow))]])
+	(let [req-handler          (fn [res]
+								   (let [user (keywordize-keys (js->clj res))]
+									   (swap! pop-up assoc
+											  :comp  (details-container user pop-up)
+											  :title (:username user))))
+		  switch-state-handler (fn []
+								   (GET
+									(str "/api/users/" (nth param 0))
+									{:handler req-handler}))]
+		[:div.news-item
+		 (css)
+		 [:span.news-item__name
+		  {:on-click switch-state-handler}
+		  (nth param 0)]
+		 [:div.news-item__text
+		  (nth param 1)]
+		 [:span.news-item__time
+		  (-> (js/moment (nth param 2)) (.fromNow))]]))

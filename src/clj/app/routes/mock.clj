@@ -36,14 +36,14 @@
 (defonce followers-store
 	(atom
 	 {:admin [2 3]
-	  :test  [1]
-	  :mock  [1 2]}))
+	  :test  [1 3]
+	  :mock  [1]}))
 
 (defonce followings-store
 	(atom
-	 {:admin [2]
-	  :test  [3]
-	  :mock  [2]}))
+	 {:admin [2 3]
+	  :test  [1]
+	  :mock  [1 2]}))
 
 (defn get-user [username]
 	(first (filterv #(= username (:username %)) @users-store)))

@@ -11,7 +11,8 @@
 			  [app.containers.root.db]
 			  [app.containers.root.events]
 			  [app.containers.root.subs]
-			  [app.containers.pop-up.views :refer [pop-up-container]]))
+			  [app.containers.pop-up.views :refer [pop-up-container]]
+			  [app.components.spinner :refer [spiner-component]]))
 
 (def menu-list [{:href "/logout" :title "Logout"}])
 
@@ -31,12 +32,13 @@
 				(link :title)]])]]))
 
 
+
 (defn root-container [page pop-up]
 	(dispatch [:get-user-data])
 	(fn []
 		(let [not-ready? (subscribe [:loading-user?])]
 			(if-not @not-ready?
-				[:div "loading.."]
+				(spiner-component)
 				[:div.root
 				 (css/root)
 				 [:header.root-header

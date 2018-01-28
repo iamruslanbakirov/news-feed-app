@@ -28,4 +28,5 @@
 		   {:color "rgba(0,0,0,0.9)"
 		   	:background "rgba(0,0,0,0.2)"
 			:border-radius "50%"}]
-		  [:.title {:padding "0 10px"}]]]))
+		  [:.title {:padding "0 10px"
+					:text-transform "uppercase"}]]]))
