@@ -5,25 +5,13 @@
 		 (fn [db _]
 			 (:data-user (:root-db db))))
 
-(reg-sub :friends-list
+(reg-sub :error-user
 		 (fn [db _]
-			 (:friends (:root-db db))))
+			 (:error-user (:news-feed-db db))))
 
 (reg-sub :loading-user?
 		 (fn [db _]
 			 (:loading-user? (:root-db db))))
-
-(reg-sub :error-news
-		 (fn [db _]
-			 (:error-news (:root-db db))))
-
-(reg-sub :error-user
-		 (fn [db _]
-			 (:error-user (:root-db db))))
-
-(reg-sub :news
-		 (fn [db _]
-			 (:data-news (:root-db db))))
 
 (reg-sub :current-route-name
 		 (fn [db _]

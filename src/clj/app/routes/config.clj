@@ -29,19 +29,19 @@
 
 	; REST API
 	(GET "/api/user" [] (wrap-json-response mock/user-handler))
-	(GET "/api/news" [] (wrap-json-response mock/news-handler))
+	(GET "/api/news" [] (wrap-json-response mock/get-news-resp))
 
 	(GET "/api/users/:username" [username]
-		 (wrap-json-response (mock/get-user username)))
+		 (wrap-json-response (mock/get-user-resp username)))
 
 	(GET "/api/posts/:username" [username]
-		 (wrap-json-response (mock/get-posts username)))
+		 (wrap-json-response (mock/get-posts-resp username)))
 
 	(GET "/api/followers/:username" [username]
-		 (wrap-json-response (mock/get-followers username)))
+		 (wrap-json-response (mock/get-followers-resp username)))
 
 	(GET "/api/followings/:username" [username]
-		 (wrap-json-response (mock/get-followings username)))
+		 (wrap-json-response (mock/get-followings-resp username)))
 
 	(resources "/")
 	(not-found "Not Found"))
