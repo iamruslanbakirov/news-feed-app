@@ -31,7 +31,8 @@
 
 (defn add-post-component [handler]
 	(let [input-val (r/atom "")
-		  max-len   140]
+		  max-len   140
+		  error? #(> (count @input-val) max-len)]
 		(fn []
 			[:div.add-post-component
 			 (css)
@@ -43,6 +44,6 @@
 			 [:span
 			  {:class
 			   (str "add-post-component__status "
-					(when (> (count @input-val) max-len) "is-error"))}
+					(when (error?) "is-error"))}
 			  (str (count @input-val) "/" max-len)]
-			 (btn-component "Send" #(handler input-val) false)])))
+			 (btn-component "Send" #(handler input-val) (error?))])))

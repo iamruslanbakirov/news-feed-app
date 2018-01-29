@@ -6,7 +6,7 @@
 			   :refer           [atom]]
 			  [app.util :refer [style-tag]]
 			  [cljsjs.moment]
-			  [ajax.core :refer [GET]]
+			  [app.util :refer [get-user]]
 			  [clojure.walk :refer [keywordize-keys]]))
 
 (defn css []
@@ -33,15 +33,11 @@
 		:font-size  (u/px 11)}]]))
 
 (defn news-item [pop-up details-container & param]
-	(let [req-handler          (fn [res]
-								   (let [user (keywordize-keys (js->clj res))]
-									   (swap! pop-up assoc
-											  :comp  (details-container user pop-up)
-											  :title (:username user))))
-		  switch-state-handler (fn []
-								   (GET
-									(str "/api/users/" (nth param 0))
-									{:handler req-handler}))]
+	(let [req-handler          (fn [user]
+								   (swap! pop-up assoc
+										  :comp  (details-container user pop-up)
+										  :title (:username user)))
+		  switch-state-handler (fn [] (get-user (nth param 0) req-handler))]
 		[:div.news-item
 		 (css)
 		 [:span.news-item__name

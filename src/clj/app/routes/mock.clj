@@ -82,10 +82,13 @@
 (defn get-news [username]
 	(let [followings          (get-subs username @followings-store)
 		  followings-username (map #(:username %) followings)]
-		(filterv
-		 (fn [post]
-			 (some #(= (:username post) %) followings-username))
-		 @posts-store)))
+		(as-> @posts-store $
+			  (filterv
+			   (fn [post]
+				   (or (some #(= (:username post) %) followings-username)
+					   (= username (keyword (:username post)))))
+			   $)
+			  (sort #(compare (:time %2) (:time %1)) $))))
 
 (defn get-news-resp [req]
 	(response (get-news (:identity req))))

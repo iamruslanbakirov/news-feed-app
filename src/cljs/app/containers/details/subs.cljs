@@ -4,12 +4,12 @@
 
 (reg-sub :posts
 		 (fn [db [_ username]]
-			 (get-in db [:details-db :user-posts (keyword username)])))
+			 (get-in db [:details-db :user-posts])))
 
 (reg-sub :followers
 		 (fn [db [_ username]]
-			 (get-in db [:details-db :followers (keyword username)])))
+			 (get-in db [:details-db :followers])))
 
 (reg-sub :followings
 		 (fn [db [_ username]]
-			 (get-in db [:details-db :followings (keyword username)])))
+			 (get-in db [:details-db :followings])))
