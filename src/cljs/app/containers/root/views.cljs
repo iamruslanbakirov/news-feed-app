@@ -17,7 +17,8 @@
 (def menu-list [{:href "/logout" :title "Logout"}])
 
 (def nav-list [{:href "/" :title "My profile" :name "root"}
-			   {:href "/news" :title "News" :name "news"}])
+			   {:href "/news" :title "News" :name "news"}
+			   {:href "/search" :title "Search" :name "search"}])
 
 (defn root-header-nav-comp [links]
 	(let [route-name @(subscribe [:current-route-name])]
@@ -45,7 +46,7 @@
 				  (css/root-header)
 				  [:div
 				   {:class "root-header--info"}
-				   [:section.root-header--item [:p "Twitter"]]
+				   [:section.root-header--item [:p "News feed"]]
 				   [:section.root-header--item
 					[menu-list-component menu-list]]]
 				  (root-header-nav-comp nav-list)]

@@ -22,6 +22,7 @@
 (defroutes my-routes
 	(GET "/" [] home)
 	(GET "/news" [] home)
+	(GET "/search" [] home)
 	(GET "/login" [] login)
 	(POST "/login" [] login-authenticate)
 	(GET "/logout" [] logout)

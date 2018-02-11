@@ -9,7 +9,8 @@
 			  [app.containers.root.views :refer [root-container]]
 			  [app.containers.details.views :refer [details-container]]
 			  [app.containers.news-feed.views :refer [news-feed-container]]
-			  [app.containers.pop-up.views :refer [pop-up-container]]))
+			  [app.containers.pop-up.views :refer [pop-up-container]]
+			  [app.containers.search.views :refer [search-container]]))
 
 
 (defonce page (atom #'details-container))
@@ -24,9 +25,14 @@
 	(dispatch [:switch-route-name "news"])
 	(reset! page (fn [] (news-feed-container pop-up))))
 
+(secretary/defroute search "/search" []
+	(dispatch [:switch-route-name "search"])
+	(reset! page (fn [] (search-container pop-up))))
+
 (defn mount-root []
 	(dispatch-sync [:init-root-db])
 	(dispatch-sync [:init-details-db])
+	(dispatch-sync [:init-search-db])
 	(reagent/render [(root-container page pop-up)] (.getElementById js/document "root")))
 
 (defn init! []

@@ -5,6 +5,7 @@
 			  [garden.color :as c]
 			  [app.util :refer [style-tag]]
 
+			  [re-frame.core :refer [subscribe dispatch]]
 			  [app.components.button :refer [btn-component]]))
 
 (defn css []
@@ -28,10 +29,10 @@
 	  [:button {:align-self "flex-end"
 				:margin     "10px 0"}]]))
 
-
-(defn add-post-component [handler]
+(defn add-post-component []
 	(let [input-val (r/atom "")
 		  max-len   140
+		  handler (fn [text] (dispatch [:send-message text]))
 		  error? #(> (count @input-val) max-len)]
 		(fn []
 			[:div.add-post-component
@@ -46,4 +47,4 @@
 			   (str "add-post-component__status "
 					(when (error?) "is-error"))}
 			  (str (count @input-val) "/" max-len)]
-			 (btn-component "Send" #(handler input-val) (error?))])))
+			 (btn-component "Send" #(handler @input-val) (error?))])))

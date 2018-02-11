@@ -104,4 +104,33 @@
  :add-message
  (fn [db [_ message-obj]]
 	 (let [username (:username (get-in db [:root-db :data-user]))]
-		 (update-in db [:details-db :user-posts (keyword username)] conj message-obj))))
+		 (update-in db [:details-db :user-posts] conj message-obj))))
+
+(reg-event-db :follow
+			  (fn [db [_ username]]
+				  (GET (str "/api/follow/" username)
+					   {:handler         #(dispatch [:follow-resp %1 username])
+						:response-format :json
+						:format          :json})
+				  db))
+
+(reg-event-db :unfollow
+			  (fn [db [_ username]]
+				  (GET (str "/api/unfollow/" username)
+					   {:handler         #(dispatch [:unfollow-resp %1 username])
+						:response-format :json
+						:format          :json})
+				  db))
+
+(reg-event-db :follow-resp
+			  (fn [db [_ resp username]]
+				  (util/get-user
+				   username
+				   (fn [user]
+					   (update-in db [:details-db :followings] conj user)))
+				  db))
+
+(reg-event-db :unfollow-resp
+			  (fn [db [_ resp username]]
+				  (update-in db [:details-db :followings] remove (fn [user] (= (:username user) username)))
+				  db))

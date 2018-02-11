@@ -7,7 +7,7 @@
 
 (defn head []
 	[:head
-	 [:title "Twitter implementation"]
+	 [:title "News feed"]
 	 [:meta {:charset "utf-8"}]
 	 [:meta
 	  {:name    "viewport"

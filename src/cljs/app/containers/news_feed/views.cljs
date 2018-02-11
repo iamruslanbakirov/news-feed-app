@@ -21,7 +21,7 @@
 	(fn []
 		[:section.news-feed
 		 (news-feed-style)
-		 [add-post-component (fn [])]
+		 [add-post-component]
 		 (doall
 		  (for [item @(subscribe [:news])]
 			  ^{:key (:id item)} [:div

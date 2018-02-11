@@ -54,6 +54,8 @@
 	   :justify-content "space-between"
 	   :align-items     "center"
 	   :padding         (px 10)}
+	  [:.follow-counter {:display "flex"
+						 :flex-direction "column"}]
 	  	[:.link
 		 {:cursor "pointer"
 		  :text-transform "uppercase"
