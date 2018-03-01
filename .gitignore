@@ -15,4 +15,4 @@ pom.xml.asc
 /.sass-cache
 /figwheel_server.log
 /.idea
-/.idea/**
+/.idea/*/**

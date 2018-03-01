@@ -75,6 +75,7 @@
 				:output-to     "target/cljsbuild/public/js/app.js"
 				:output-dir    "target/cljsbuild/public/js/out"
 				:source-map    true
+				:preloads [devtools.preload]
 				:optimizations :none
 				:pretty-print  true}}}}
 
@@ -107,7 +108,7 @@
 
 
 			   :injections   [(require
-								  'pjstadig.humane-test-output)
+							   'pjstadig.humane-test-output)
 							  (pjstadig.humane-test-output/activate!)]
 
 			   :env          {:dev  true

@@ -4,7 +4,8 @@
 
 (reg-sub :posts
 		 (fn [db [_ username]]
-			 (get-in db [:details-db :user-posts])))
+			 (as-> (get-in db [:details-db :user-posts]) $
+				   (sort #(compare (:time %2) (:time %1)) $))))
 
 (reg-sub :followers
 		 (fn [db [_ username]]

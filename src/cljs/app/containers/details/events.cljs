@@ -1,7 +1,7 @@
 (ns app.containers.details.events
 	(:require [re-frame.core :refer [reg-event-db dispatch reg-event-fx]]
 			  [ajax.core :refer [GET POST]]
-			  [clojure.walk :refer [keywordize-keys]]
+
 			  [app.util :as util]
 			  [app.containers.details.db :refer [default-details-db]]))
 
@@ -79,12 +79,11 @@
 (reg-event-db
  :send-message
  (fn [db [_ text]]
-	 (POST "/api/message/"
-		   {:params          {:message text}
-			:handler         #(dispatch [:send-message-resp %1])
-			:error-handler   #(dispatch [:send-message-error %1])
-			:response-format :json
-			:format          :json})
+	 (POST "/api/message"
+		   (merge util/ajax-params
+				  {:params        {:message text}
+				   :handler       #(dispatch [:send-message-resp %1])
+				   :error-handler #(dispatch [:send-message-error %1])}))
 	 (update-in db [:details-db] assoc :sending-message? true)))
 
 (reg-event-db
@@ -104,22 +103,19 @@
  :add-message
  (fn [db [_ message-obj]]
 	 (let [username (:username (get-in db [:root-db :data-user]))]
+		 (dispatch [:change-new-msg ""])
 		 (update-in db [:details-db :user-posts] conj message-obj))))
 
 (reg-event-db :follow
 			  (fn [db [_ username]]
 				  (GET (str "/api/follow/" username)
-					   {:handler         #(dispatch [:follow-resp %1 username])
-						:response-format :json
-						:format          :json})
+					   (merge util/ajax-params {:handler #(dispatch [:follow-resp %1 username])}))
 				  db))
 
 (reg-event-db :unfollow
 			  (fn [db [_ username]]
 				  (GET (str "/api/unfollow/" username)
-					   {:handler         #(dispatch [:unfollow-resp %1 username])
-						:response-format :json
-						:format          :json})
+					   (merge util/ajax-params {:handler #(dispatch [:unfollow-resp %1 username])}))
 				  db))
 
 (reg-event-db :follow-resp

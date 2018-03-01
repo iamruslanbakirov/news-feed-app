@@ -30,7 +30,7 @@
 				:margin     "10px 0"}]]))
 
 (defn add-post-component []
-	(let [input-val (r/atom "")
+	(let [input-val (subscribe [:new-msg-text])
 		  max-len   140
 		  handler (fn [text] (dispatch [:send-message text]))
 		  error? #(> (count @input-val) max-len)]
@@ -41,10 +41,13 @@
 			  {:placeholder "What do you think?"
 			   :autoFocus   ""
 			   :value       @input-val
-			   :on-change   #(reset! input-val (-> % .-target .-value))}]
+			   :on-change   #(dispatch [:change-new-msg (-> % .-target .-value)])}]
 			 [:span
 			  {:class
 			   (str "add-post-component__status "
 					(when (error?) "is-error"))}
 			  (str (count @input-val) "/" max-len)]
-			 (btn-component "Send" #(handler @input-val) (error?))])))
+			 (btn-component
+			  "Send"
+			  #(handler @input-val)
+			  (or (error?) (= (count @input-val) 0)))])))

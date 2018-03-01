@@ -12,3 +12,7 @@
 (reg-sub :loading-news?
 		 (fn [db _]
 			 (:loading-news? (:news-feed-db db))))
+
+(reg-sub :new-msg-text
+		 (fn [db _]
+			 (get-in db [:news-feed-db :new-msg])))

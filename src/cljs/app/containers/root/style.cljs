@@ -15,6 +15,7 @@
 		  :min-height     "100vh"}
 		 [:main.root-content
 		  {:display "flex"
+		   :overflow "auto"
 		   :height  "calc(100vh - 105px)"}]]))
 
 (defn root-header []

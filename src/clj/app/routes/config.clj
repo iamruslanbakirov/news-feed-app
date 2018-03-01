@@ -5,7 +5,7 @@
 			  [hiccup.page :refer [include-js include-css html5]]
 
 			  [ring.util.response :refer [response redirect]]
-			  [ring.middleware.json :refer [wrap-json-response]]
+			  [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
 
 			  [buddy.auth.backends.session :refer [session-backend]]
 			  [buddy.auth :refer [authenticated?]]
@@ -43,6 +43,29 @@
 
 	(GET "/api/followings/:username" [username]
 		 (wrap-json-response (mock/get-followings-resp username)))
+
+	;; new
+	(POST "/api/message" []
+		  (wrap-json-response
+		   (wrap-json-body
+			(fn [req]
+				(mock/add-message-handler
+				 (get-in req [:body :message])
+				 (name (:identity req))))
+			{:keywords? true :bigdecimals? true})))
+
+	(GET "/api/unfollow/:username" [username]
+		 (println username))
+
+	(GET "/api/follow/:username" [username]
+		 (println username))
+
+	(POST "/api/search" []
+		  (wrap-json-response
+		   (wrap-json-body
+			(fn [req]
+				(mock/search-users (get-in req [:body :search])))
+			{:keywords? true})))
 
 	(resources "/")
 	(not-found "Not Found"))

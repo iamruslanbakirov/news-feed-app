@@ -30,7 +30,8 @@
 	   [:span {:class "border"}]
 	   [:span {:class "caption"} "Login"]]
 	  [:label
-	   [:input {:name "password"}]
+	   [:input {:name "password"
+				:type "password"}]
 	   [:span {:class "border"}]
 	   [:span {:class "caption"} "Password"]]
 	  [:button {:type "submit"} "Start"]]])

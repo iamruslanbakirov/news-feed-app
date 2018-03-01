@@ -35,6 +35,6 @@
 						   :on-click #(dispatch [:change-search-str ""])}
 					   "close"])]
 				 [:div.users-list
-				  (if (> (count users) 0)
+				  (if (and (> (count users) 0) (> (count search-str) 0))
 					  [(user-list users details-container pop-up)]
 					  [:div.is-empty "It's empty..."])]]))))

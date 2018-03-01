@@ -3,6 +3,7 @@
 			  [ajax.core :refer [GET POST]]
 			  [clojure.walk :refer [keywordize-keys]]
 
+			  [app.util :refer [ajax-params]]
 			  [app.containers.root.db :refer [default-root-db]]))
 
 (reg-event-fx :init-root-db []
@@ -12,8 +13,9 @@
 (reg-event-db :get-user-data
 			  (fn [db _]
 				  (GET "/api/user"
-					   {:handler       #(dispatch [:user-resp %1])
-						:error-handler #(dispatch [:user-error %1])})
+					   (merge ajax-params
+							  {:handler       #(dispatch [:user-resp %1])
+							   :error-handler #(dispatch [:user-error %1])}))
 				  db))
 
 (reg-event-db :user-resp

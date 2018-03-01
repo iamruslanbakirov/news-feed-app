@@ -1,5 +1,6 @@
 (ns app.routes.mock
 	(:require [ring.util.response :refer [response]]
+			  [clojure.string :refer [includes?]]
 			  [compojure.route :refer [not-found]]))
 
 (defonce posts-store
@@ -26,6 +27,9 @@
 	 [{:username "admin"
 	   :id       1
 	   :status   "Hello world!"}
+	  {:username "fake"
+	   :id       4
+	   :status   ""}
 	  {:username "test"
 	   :id       2
 	   :status   "Test status"}
@@ -36,7 +40,7 @@
 (defonce followers-store
 	(atom
 	 {:admin [2 3]
-	  :test  [1 3]
+	  :test  [1 3 4]
 	  :mock  [1]}))
 
 (defonce followings-store
@@ -85,10 +89,9 @@
 		(as-> @posts-store $
 			  (filterv
 			   (fn [post]
-				   (or (some #(= (:username post) %) followings-username)
-					   (= username (keyword (:username post)))))
+				   (some #(= (:username post) %) followings-username))
 			   $)
-			  (sort #(compare (:time %2) (:time %1)) $))))
+			  (sort #(compare (:time %1) (:time %2)) $))))
 
 (defn get-news-resp [req]
 	(response (get-news (:identity req))))
@@ -99,3 +102,20 @@
 			(not= user nil)
 			(response user)
 			:else (not-found "404 not found"))))
+
+(defn create-mes-obj [message username]
+	{:id       (inc (count @posts-store))
+	 :username username
+	 :text     message
+	 :time     (System/currentTimeMillis)})
+
+(defn add-message-handler [message username]
+	(let [new-msg (create-mes-obj message username)]
+		(swap! posts-store conj new-msg)
+		(println @posts-store)
+		(response new-msg)))
+
+(defn search-users [substr]
+	(response
+		(filterv
+		 #(includes? (:username %) substr) @users-store)))
