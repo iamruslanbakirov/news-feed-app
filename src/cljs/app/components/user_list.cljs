@@ -2,9 +2,8 @@
 	(:require [garden.core :as g]
 			  [garden.units :refer [px]]
 			  [garden.color :as c]
-
+			  [re-frame.core :refer [dispatch]]
 			  [app.util :refer [style-tag]]))
-
 
 (defn css []
 	(style-tag
@@ -25,10 +24,8 @@
 			:border        "none"}]
 		  [:.username {:margin "0 10px"}]]]))
 
-(defn user-list [list details-container pop-up]
-	(let [handler #(swap! pop-up assoc
-					:comp  (details-container % pop-up)
-					:title (:username %))]
+(defn user-list [list details-container]
+	(let [handler #(dispatch [:switch-pop-up (details-container %) (:username %)])]
 		(fn []
 			[:div.user-list
 			 (css)

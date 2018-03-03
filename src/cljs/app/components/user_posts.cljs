@@ -6,15 +6,15 @@
 			  [app.util :refer [get-user-posts]]))
 
 
-(defn posts-list [list pop-up comp]
+(defn posts-list [list comp]
 	[:ul
 	 (doall
 	  (for [item list]
 		  ^{:key (:id item)}
 		  [:li
-		   (news-item pop-up comp (:username item) (:text item) (:time item))]))])
+		   (news-item comp (:username item) (:text item) (:time item))]))])
 
-(defn user-posts [user comp pop-up]
+(defn user-posts [user comp]
 	(let [username (:username user)
 		  auth-username   (:username @(subscribe [:user]))
 		  current-user    (= auth-username username)
@@ -23,4 +23,4 @@
 			(when (= (count @posts) 0) (dispatch [:get-user-posts username]))
 			(get-user-posts username #(reset! posts %) (fn [])))
 		(fn []
-			(posts-list @posts pop-up comp))))
+			(posts-list @posts comp))))

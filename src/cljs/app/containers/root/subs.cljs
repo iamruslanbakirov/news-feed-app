@@ -16,3 +16,7 @@
 (reg-sub :current-route-name
 		 (fn [db _]
 			 (:route-current-name (:root-db db))))
+
+(reg-sub :pop-up-sub
+		 (fn [db]
+			 (get-in db [:root-db :pop-up])))

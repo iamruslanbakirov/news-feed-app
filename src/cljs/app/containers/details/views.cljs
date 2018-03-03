@@ -16,10 +16,11 @@
 
 (defn btn-follow [is-subscr? username]
 	(fn []
-		(if is-subscr? (dispatch [:unfollow username])
+		(if is-subscr?
+			(dispatch [:unfollow username])
 			(dispatch [:follow username]))))
 
-(defn details-container [user pop-up]
+(defn details-container [user]
 	(let [username        (:username user)
 		  status          (:status user)
 		  auth-username   (:username @(subscribe [:user]))
@@ -27,9 +28,13 @@
 		  followers       (if current-user (subscribe [:followers]) (atom []))
 		  followings      (if current-user (subscribe [:followings]) (atom []))
 		  auth-followings (subscribe [:followings])
-		  is-subscr? 	  (some #(= (:username %) username) @auth-followings)]
-		(if current-user (dispatch [:get-followers]) (util/get-followers username #(reset! followers %) (fn [])))
-		(if current-user (dispatch [:get-followings]) (util/get-followings username #(reset! followings %) (fn [])))
+		  is-subscr?      (some #(= (:username %) username) @auth-followings)]
+		(if current-user
+			(dispatch [:get-followers])
+			(util/get-followers username #(reset! followers %) (fn [])))
+		(if current-user
+			(dispatch [:get-followings])
+			(util/get-followings username #(reset! followings %) (fn [])))
 		(fn []
 			[:div.wrap-paper
 			 (css/wrap-paper-css)
@@ -50,17 +55,14 @@
 			   [:div.follow-counter
 				[:span
 				 {:class    "link"
-				  :on-click #(swap! pop-up assoc
-							  :comp  (user-list @followers details-container pop-up)
-							  :title "Followers")}
+				  :on-click #(dispatch [:switch-pop-up (user-list @followers details-container) "Followers"])}
 				 (str (count @followers) " followers")]
 				[:span
 				 {:class    "link"
-				  :on-click #(swap! pop-up assoc
-							  :comp  (user-list @followings details-container pop-up)
-							  :title "Followings")}
+				  :on-click #(dispatch
+							  [:switch-pop-up (user-list @followings details-container) "Followings"])}
 				 (str (count @followings) " following")]]]
 			  (when
 				  current-user
 				  [add-post-component])
-			  [user-posts user details-container pop-up]]])))
+			  [user-posts user details-container]]])))

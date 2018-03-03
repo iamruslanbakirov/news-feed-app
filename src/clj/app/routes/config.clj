@@ -20,9 +20,12 @@
 		(assoc :session {})))
 
 (defroutes my-routes
+	;spa
 	(GET "/" [] home)
 	(GET "/news" [] home)
 	(GET "/search" [] home)
+	(GET "/popup" [] home)
+
 	(GET "/login" [] login)
 	(POST "/login" [] login-authenticate)
 	(GET "/logout" [] logout)
@@ -71,13 +74,11 @@
 	(not-found "Not Found"))
 
 (defn unauthorized-handler [req metadata]
-	(cond
+	(if
 		(authenticated? req)
 		(-> (render (html5 [:body "Error"]) req)
 			(assoc :status 403))
-		:else
-		(let [current-url (:uri req)]
-			(redirect (format "login?next=%s" current-url)))))
+		(redirect (format "login?next=%s" (:uri req)))))
 
 (def auth-backend
 	(session-backend {:unauthorized-handler unauthorized-handler}))

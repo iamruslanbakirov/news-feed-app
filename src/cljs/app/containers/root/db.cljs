@@ -4,4 +4,5 @@
 	{:loading-user?      false
 	 :data-user          nil
 	 :error-user         nil
+	 :pop-up {:comp nil :title nil}
 	 :route-current-name "root"})

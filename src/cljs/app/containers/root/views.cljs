@@ -34,10 +34,11 @@
 
 
 
-(defn root-container [page pop-up]
+(defn root-container [page]
 	(dispatch [:get-user-data])
 	(fn []
-		(let [not-ready? (subscribe [:loading-user?])]
+		(let [not-ready? (subscribe [:loading-user?])
+			  pop-up-sub @(subscribe [:pop-up-sub])]
 			(if-not @not-ready?
 				(spiner-component)
 				[:div.root
@@ -53,10 +54,9 @@
 				 [:main {:class "root-content"}
 				  [@page]
 				  (when
-					  (not= (:comp @pop-up) nil)
+					  (not= (:comp pop-up-sub) nil)
 					  (pop-up-container
-					   (:comp @pop-up)
-					   (:title @pop-up)
-					   #(swap! pop-up assoc :comp nil :title nil)))]]))))
+					   (:comp pop-up-sub)
+					   (:title pop-up-sub)))]]))))
 
 

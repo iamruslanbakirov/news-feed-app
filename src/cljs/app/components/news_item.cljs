@@ -7,6 +7,7 @@
 			  [app.util :refer [style-tag]]
 			  [cljsjs.moment]
 			  [app.util :refer [get-user]]
+			  [re-frame.core :refer [dispatch]]
 			  [clojure.walk :refer [keywordize-keys]]))
 
 (defn css []
@@ -32,11 +33,11 @@
 		:order      2
 		:font-size  (u/px 11)}]]))
 
-(defn news-item [pop-up details-container & param]
+(defn news-item [details-container & param]
 	(let [req-handler          (fn [user]
-								   (swap! pop-up assoc
-										  :comp  (details-container user pop-up)
-										  :title (:username user)))
+								   (dispatch [:switch-pop-up
+											  (details-container user)
+											  (:username user)]))
 		  switch-state-handler (fn [] (get-user (nth param 0) req-handler))]
 		[:div.news-item
 		 (css)

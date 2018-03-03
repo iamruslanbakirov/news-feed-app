@@ -15,7 +15,7 @@
 			  [app.components.user-posts :refer [posts-list]]))
 
 
-(defn news-feed-container [pop-up]
+(defn news-feed-container []
 	(dispatch [:get-news-data])
 
 	(fn []
@@ -26,4 +26,4 @@
 			[:div.news-feed
 			 (news-feed-style)
 			 [add-post-component]
-			 (posts-list posts pop-up details-container)])))
+			 (posts-list posts details-container)])))

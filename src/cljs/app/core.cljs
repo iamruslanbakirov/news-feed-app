@@ -12,28 +12,26 @@
 			  [app.containers.pop-up.views :refer [pop-up-container]]
 			  [app.containers.search.views :refer [search-container]]))
 
-
 (defonce page (atom #'details-container))
-(defonce pop-up (atom {:comp nil :title nil}))
-(add-watch  pop-up :logger #(-> %4 clj->js js/console.log))
 
 (secretary/defroute root "/" []
 	(dispatch [:switch-route-name "root"])
-	(reset! page (fn [] (details-container @(subscribe [:user]) pop-up))))
+	(reset! page (fn [] (details-container @(subscribe [:user])))))
 
 (secretary/defroute news "/news" []
 	(dispatch [:switch-route-name "news"])
-	(reset! page (fn [] (news-feed-container pop-up))))
+	(reset! page (fn [] (news-feed-container))))
 
 (secretary/defroute search "/search" []
 	(dispatch [:switch-route-name "search"])
-	(reset! page (fn [] (search-container pop-up))))
+	(reset! page (fn [] (search-container))))
 
 (defn mount-root []
-	(dispatch-sync [:init-root-db])
-	(dispatch-sync [:init-details-db])
-	(dispatch-sync [:init-search-db])
-	(reagent/render [(root-container page pop-up)] (.getElementById js/document "root")))
+	(do
+		(dispatch-sync [:init-root-db])
+		(dispatch-sync [:init-details-db])
+		(dispatch-sync [:init-search-db])
+		(reagent/render [(root-container page)] (.getElementById js/document "root"))))
 
 (defn init! []
 	(accountant/configure-navigation!

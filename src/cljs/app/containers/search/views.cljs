@@ -10,10 +10,11 @@
 			  [app.containers.search.db]
 			  [app.containers.search.style :refer [search-container-css]]))
 
-(defn search-container [pop-up]
-	(let [click-handler (fn [user] (swap! pop-up assoc
-										  :comp  (details-container user pop-up)
-										  :title (:username user)))]
+(defn search-container []
+	(let [click-handler (fn [user]
+							(dispatch [:switch-pop-up
+									   (details-container user)
+									   (:username user)]))]
 		(fn []
 			(let [users @(subscribe [:search-users])
 				  search-str @(subscribe [:search-str])
@@ -36,5 +37,5 @@
 					   "close"])]
 				 [:div.users-list
 				  (if (and (> (count users) 0) (> (count search-str) 0))
-					  [(user-list users details-container pop-up)]
+					  [(user-list users details-container)]
 					  [:div.is-empty "It's empty..."])]]))))
