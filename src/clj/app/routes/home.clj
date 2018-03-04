@@ -12,7 +12,7 @@
 	 [:meta
 	  {:name    "viewport"
 	   :content "width=device-width, initial-scale=1"}]
-	 (include-css "/css/style.css")])
+	 (include-css (if (:production env) "/css/style.min.css" "/css/style.css"))])
 
 
 (defn spiner-component []

@@ -55,7 +55,7 @@
 
 	:minify-assets
 	{:assets
-	 {"resources/public/css/site.min.css" "resources/public/css/site.css"}}
+	 {"resources/public/css/style.min.css" "resources/public/css/style.css"}}
 
 	:cljsbuild
 	{:builds {:min
@@ -119,4 +119,5 @@
 			   :prep-tasks   ["compile" ["cljsbuild" "once" "min"]]
 			   :env          {:production true}
 			   :aot          :all
+			   :language-out :ecmascript5
 			   :omit-source  true}})
