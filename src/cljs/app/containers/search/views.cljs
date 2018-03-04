@@ -8,7 +8,8 @@
 			  [app.containers.search.subs]
 			  [app.containers.search.events]
 			  [app.containers.search.db]
-			  [app.containers.search.style :refer [search-container-css]]))
+			  [app.containers.search.style :refer [search-container-css]]
+			  [app.components.empty :refer [empty-comp]]))
 
 (defn search-container []
 	(let [click-handler (fn [user]
@@ -38,4 +39,4 @@
 				 [:div.users-list
 				  (if (and (> (count users) 0) (> (count search-str) 0))
 					  [(user-list users details-container)]
-					  [:div.is-empty "It's empty..."])]]))))
+					  (empty-comp))]]))))

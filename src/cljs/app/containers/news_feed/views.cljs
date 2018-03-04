@@ -8,6 +8,7 @@
 			  [app.containers.news-feed.db]
 			  [app.containers.news-feed.events]
 			  [app.containers.news-feed.subs]
+			  [app.components.empty :refer [empty-comp]]
 
 			  [app.components.news-item :refer [news-item]]
 			  [app.components.add-post :refer [add-post-component]]
@@ -26,4 +27,6 @@
 			[:div.news-feed
 			 (news-feed-style)
 			 [add-post-component]
-			 (posts-list posts details-container)])))
+			 (if (and (= 0 (count news)) (= 0 (count user-posts)))
+				 (empty-comp)
+				 (posts-list posts details-container))])))

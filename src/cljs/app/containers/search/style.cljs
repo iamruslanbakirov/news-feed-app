@@ -12,7 +12,7 @@
 (defn search-field []
 	[:.search__field
 	 {:position "relative"
-	  :margin (u/px 20)}
+	  :margin "20px 10px"}
 	 [:input
 	  {:width "100%"
 	   :background "transparent"
@@ -52,8 +52,4 @@
 	  {:width "100%"
 	   :display "flex"
 	   :flex-direction "column"}
-	   (search-field)
-	  [:div.is-empty
-	   {:margin-left (u/px 20)}]
-	  [:.users-list
-	   {:margin-top (u/px 20)}]]))
+	   (search-field)]))

@@ -58,10 +58,18 @@
 			{:keywords? true :bigdecimals? true})))
 
 	(GET "/api/unfollow/:username" [username]
-		 (println username))
+		 (wrap-json-response
+		  (wrap-json-body
+		   (fn [req]
+			   (mock/unfollow-handler
+				   username (:identity req))))))
 
 	(GET "/api/follow/:username" [username]
-		 (println username))
+		 (wrap-json-response
+		  (wrap-json-body
+		   (fn [req]
+			   (mock/follow-handler
+				username (:identity req))))))
 
 	(POST "/api/search" []
 		  (wrap-json-response

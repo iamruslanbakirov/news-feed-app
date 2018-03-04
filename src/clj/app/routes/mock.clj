@@ -39,15 +39,15 @@
 
 (defonce followers-store
 	(atom
-	 {:admin [2 3]
-	  :test  [1 3 4]
-	  :mock  [1]}))
+	 {:admin #{2 3}
+	  :test  #{1 3 4}
+	  :mock  #{1}}))
 
 (defonce followings-store
 	(atom
-	 {:admin [2 3]
-	  :test  [1]
-	  :mock  [1 2]}))
+	 {:admin #{2 3}
+	  :test  #{1}
+	  :mock  #{1 2}}))
 
 (defn get-user [username]
 	(first (filterv #(= username (:username %)) @users-store)))
@@ -117,5 +117,17 @@
 
 (defn search-users [substr]
 	(response
-		(filterv
-		 #(includes? (:username %) substr) @users-store)))
+	 (filterv
+	  #(includes? (:username %) substr) @users-store)))
+
+(defn unfollow-handler [unfollow-name username]
+	(let [unfollow-user (get-user (name unfollow-name))]
+		(do
+			(swap! followings-store update-in [username] disj (:id unfollow-user))
+			(response unfollow-user))))
+
+(defn follow-handler [follow-name username]
+	(let [follow-user (get-user (name follow-name))]
+		(do
+			(swap! followings-store update-in [username] conj (:id follow-user))
+			(response follow-user))))

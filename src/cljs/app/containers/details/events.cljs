@@ -1,5 +1,5 @@
 (ns app.containers.details.events
-	(:require [re-frame.core :refer [reg-event-db dispatch reg-event-fx]]
+	(:require [re-frame.core :refer [reg-event-db dispatch reg-event-fx subscribe]]
 			  [ajax.core :refer [GET POST]]
 
 			  [app.util :as util]
@@ -11,10 +11,28 @@
  (fn [{:keys [db]} _]
 	 {:db (assoc db :details-db default-details-db)}))
 
+(reg-event-db :get-user-data
+			  (fn [db _]
+				  (GET "/api/user"
+					   (merge util/ajax-params
+							  {:handler       #(dispatch [:user-resp %1])
+							   :error-handler #(dispatch [:user-error %1])}))
+				  db))
+
+(reg-event-db :user-resp
+			  (fn [db [_ res]]
+				  (do
+					  (dispatch [:get-user-posts (:username res)])
+					  (update-in db [:details-db] assoc :loading-user? true :data-user res))))
+
+(reg-event-db :user-error
+			  (fn [db [_ res]]
+				  (update-in db [:details-db] assoc :loading-user? true :error-user res)))
+
 (reg-event-db
  :get-user-posts
  (fn [db [_]]
-	 (let [username (get-in db [:root-db :data-user :username])]
+	 (let [username (get-in db [:details-db :data-user :username])]
 		 (util/get-user-posts
 		  username
 		  #(dispatch [:user-posts-resp %1])
@@ -38,7 +56,7 @@
 (reg-event-db
  :get-followers
  (fn [db [_]]
-	 (let [username (get-in db [:root-db :data-user :username])]
+	 (let [username (get-in db [:details-db :data-user :username])]
 		 (util/get-followers
 		  username
 		  #(dispatch [:get-followers-resp %1])
@@ -58,7 +76,7 @@
 (reg-event-db
  :get-followings
  (fn [db [_]]
-	 (let [username (get-in db [:root-db :data-user :username])]
+	 (let [username (get-in db [:details-db :data-user :username])]
 		 (util/get-followings
 		  username
 		  #(dispatch [:get-followings-resp %1])
@@ -102,7 +120,7 @@
 (reg-event-db
  :add-message
  (fn [db [_ message-obj]]
-	 (let [username (:username (get-in db [:root-db :data-user]))]
+	 (let [username (:username (get-in db [:details-db :data-user]))]
 		 (dispatch [:change-new-msg ""])
 		 (update-in db [:details-db :user-posts] conj message-obj))))
 
@@ -115,18 +133,17 @@
 (reg-event-db :unfollow
 			  (fn [db [_ username]]
 				  (GET (str "/api/unfollow/" username)
-					   (merge util/ajax-params {:handler #(dispatch [:unfollow-resp %1 username])}))
+					   (merge util/ajax-params {:handler #(dispatch [:unfollow-resp %1])}))
 				  db))
 
 (reg-event-db :follow-resp
-			  (fn [db [_ resp username]]
-				  (util/get-user
-				   username
-				   (fn [user]
-					   (update-in db [:details-db :followings] conj user)))
-				  db))
+			  (fn [db [_ resp]]
+				  (update-in db [:details-db :followings] conj resp)))
 
 (reg-event-db :unfollow-resp
-			  (fn [db [_ resp username]]
-				  (update-in db [:details-db :followings] remove (fn [user] (= (:username user) username)))
-				  db))
+			  (fn [db [_ resp]]
+				  (update-in db [:details-db] assoc
+							 :followings
+							 (filterv #(not= (:username resp) (:username %))
+									  (get-in db [:details-db :followings])))))
+

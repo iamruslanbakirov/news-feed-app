@@ -13,7 +13,7 @@
 (defn css []
 	(style-tag
 	 [:.news-item
-	  {:margin         "20px 20px 0"
+	  {:margin         "20px 10px 0"
 	   :display        "flex"
 	   :flex-direction "column"
 	   :border-bottom  "1px solid rgba(0,0,0,0.11)"}

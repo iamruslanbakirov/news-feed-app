@@ -3,6 +3,7 @@
 			   :refer           [atom]]
 			  [re-frame.core :refer [subscribe dispatch]]
 			  [app.components.news-item :refer [news-item]]
+			  [app.components.empty :refer [empty-comp]]
 			  [app.util :refer [get-user-posts]]))
 
 
@@ -15,12 +16,13 @@
 		   (news-item comp (:username item) (:text item) (:time item))]))])
 
 (defn user-posts [user comp]
-	(let [username (:username user)
+	(let [username        (:username user)
 		  auth-username   (:username @(subscribe [:user]))
 		  current-user    (= auth-username username)
-		  posts (if current-user (subscribe [:posts username]) (atom []))]
-		(if current-user
-			(when (= (count @posts) 0) (dispatch [:get-user-posts username]))
+		  posts           (if current-user (subscribe [:posts username]) (atom []))]
+		(when (not current-user)
 			(get-user-posts username #(reset! posts %) (fn [])))
 		(fn []
-			(posts-list @posts comp))))
+			(if (= 0 (count @posts))
+				(empty-comp)
+				(posts-list @posts comp)))))
