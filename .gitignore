@@ -16,3 +16,4 @@ pom.xml.asc
 /figwheel_server.log
 /.idea
 /.idea/*/**
+/resources/public/css/*.min.*
